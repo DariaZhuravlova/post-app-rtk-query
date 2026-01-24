@@ -1,8 +1,6 @@
 // react
 import { type FC, useState } from "react";
 import { Link } from "react-router";
-// contants
-import {getPostRoute} from "@/shared/libs/constants/routes/routes";
 // rtk query
 import {useDeletePostMutation, useUpdatePostMutation} from "@/entities/post/api/postApi";
 // types

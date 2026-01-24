@@ -9,4 +9,3 @@ export const createReduxStore = configureStore({
         getDefaultMiddleware().concat(api.middleware),
 })
 
-export type AppDispatch = typeof createReduxStore.dispatch;
