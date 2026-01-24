@@ -1,0 +1,58 @@
+.postItem {
+  width: 280px;
+  background: #f8f8f8;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.postItem img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+button {
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #2b74e4;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:last-child {
+    background: #c22c2c;
+  }
+}
+
+.readMore {
+  color: #0077ff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 6px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.text {
+  min-height: 50px;
+}
+
