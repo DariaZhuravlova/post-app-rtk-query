@@ -19,8 +19,8 @@ export const PostAdd: FC = () => {
             await createPost({
                 title,
                 text,
-                img_url: img_url || null, // 🔥 важно
-            }).unwrap(); // 👉 чтобы ловить ошибки
+                img_url: img_url || null, 
+            }).unwrap(); 
 
             setTitle("");
             setText("");

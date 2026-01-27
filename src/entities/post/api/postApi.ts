@@ -22,7 +22,7 @@ const postAPI = api.injectEndpoints({
                 url: "posts",
                 method: "GET",
             }),
-            providesTags: ["POST"],
+            providesTags: [{type: "POST", id: "LIST"}],
         }),
 
         // GET ONE
@@ -30,8 +30,8 @@ const postAPI = api.injectEndpoints({
             query: (id) => ({
                 url: `post/${id}`,
                 method: "GET",
-          }),
-          providesTags: ["POST"],
+            }),
+            providesTags: (result, error, id) => [{type: "POST", id}],
         }),
 
         // CREATE
@@ -40,8 +40,8 @@ const postAPI = api.injectEndpoints({
                 url: "post",
                 method: "POST",
                 body: newPost,
-          }),
-          invalidatesTags: ["POST"],
+            }),
+            invalidatesTags: [{type: "POST", id: "LIST"}],
         }),
 
         // UPDATE
@@ -50,8 +50,11 @@ const postAPI = api.injectEndpoints({
                 url: "post",
                 method: "PUT",
                 body: updatedPost,
-          }),
-          invalidatesTags: ["POST"],
+            }),
+            invalidatesTags: (result, error, arg) => [
+                {type: "POST", id: arg._id},
+                {type: "POST", id: "LIST"},
+            ],
         }),
 
         // DELETE
@@ -59,8 +62,11 @@ const postAPI = api.injectEndpoints({
             query: (id) => ({
                 url: `post/${id}`,
                 method: "DELETE",
-          }),
-          invalidatesTags: ["POST"],
+            }),
+            invalidatesTags: (result, error, id) => [
+                {type: "POST", id},
+                {type: "POST", id: "LIST"},
+            ],
         }),
     }),
 });
