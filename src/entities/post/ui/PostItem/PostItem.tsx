@@ -10,6 +10,8 @@ import styles from "./PostItem.module.scss";
 
 interface PostItemProps {
     post: IPost;
+    onDelete?: () => void;
+    isDeleting?: boolean;
 }
 
 const fallbackImg =
@@ -17,10 +19,10 @@ const fallbackImg =
 
 const LIMIT = 30;
 
-export const PostItem: FC<PostItemProps> = ({post}) => {
+export const PostItem: FC<PostItemProps> = ({post, onDelete, isDeleting}) => {
     const {_id, title, text, img_url} = post;
 
-    const [deletePost, {isLoading: isDeleting}] = useDeletePostMutation();
+    const [deletePost, {isLoading: isLocalDeleting}] = useDeletePostMutation();
     const [updatePost, {isLoading: isUpdating}] = useUpdatePostMutation();
 
     const [isEdit, setIsEdit] = useState(false);
@@ -32,10 +34,16 @@ export const PostItem: FC<PostItemProps> = ({post}) => {
 
     const truncatedText = text.length > LIMIT ? text.slice(0, LIMIT) + "..." : text;
 
-    const onDelete = async () => {
-        if (!_id) return;
-        await deletePost(_id).unwrap(); 
+    const handleDelete = async () => {
+        if (onDelete) {
+            onDelete();
+            return;
+        }
+
+        if (!post._id) return;
+        await deletePost(post._id).unwrap();
     };
+
 
     const onSave = async () => {
         if (!_id) return;
@@ -45,10 +53,12 @@ export const PostItem: FC<PostItemProps> = ({post}) => {
             title: updatedTitle,
             text: updatedText,
             img_url: updatedImg,
-        });
+        }).unwrap();
 
         setIsEdit(false);
     };
+
+    const deleting = isDeleting ?? isLocalDeleting;
 
     return (
         <div className={styles.postItem}>
@@ -105,10 +115,10 @@ export const PostItem: FC<PostItemProps> = ({post}) => {
                     <div className={styles.actions}>
                         <button onClick={() => setIsEdit(true)}>edit</button>
                         <button
-                            onClick={onDelete}
-                            disabled={isDeleting}
+                            onClick={handleDelete}
+                            disabled={deleting}
                         >
-                            {isDeleting ? "deleting..." : "delete"}
+                            {deleting ? "deleting..." : "delete"}
                         </button>
                     </div>
                 </>

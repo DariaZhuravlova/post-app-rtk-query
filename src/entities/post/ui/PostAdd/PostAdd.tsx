@@ -1,35 +1,33 @@
 // react
 import {type FC, useState} from "react";
 // rtk query
-import {useCreatePostMutation} from "@/entities/post/api/postApi";
+import { useCreatePost } from "../../libs/hooks/useCreatePost";
 // styles
 import styles from "./PostAdd.module.scss";
 
 export const PostAdd: FC = () => {
-    const [createPost, {isLoading}] = useCreatePostMutation();
-
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const [img_url, setImgUrl] = useState("");
+    
+    const {
+        onCreatePost,
+        result: { isLoading },
+    } = useCreatePost();
 
-    const onCreatePost = async () => {
-        if (!title || !text) return;
-
-        try {
-            await createPost({
-                title,
-                text,
-                img_url: img_url || null, 
-            }).unwrap(); 
-
-            setTitle("");
-            setText("");
-            setImgUrl("");
-        } catch (error) {
-            console.error("Create post error:", error);
-        }
+    const handleAddPost = () => {
+        onCreatePost({
+            title,
+            text,
+            img_url,
+            onSuccess: () => {
+                setTitle("");
+                setText("");
+                setImgUrl("");
+            },
+        });
     };
-
+    
     return (
         <div className={styles.PostAdd}>
             <input
@@ -52,7 +50,7 @@ export const PostAdd: FC = () => {
             />
 
             <button
-                onClick={onCreatePost}
+                onClick={handleAddPost}
                 type="button"
                 disabled={!title || !text || isLoading}
             >
