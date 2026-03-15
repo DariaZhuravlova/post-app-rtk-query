@@ -31,7 +31,7 @@ const postAPI = api.injectEndpoints({
                 url: `post/${id}`,
                 method: "GET",
             }),
-            providesTags: (result, error, id) => [{type: "POST", id}],
+            providesTags: (_result, _error, id) => [{type: "POST", id}],
         }),
 
         // CREATE
@@ -51,7 +51,7 @@ const postAPI = api.injectEndpoints({
                 method: "PUT",
                 body: updatedPost,
             }),
-            invalidatesTags: (result, error, arg) => [
+            invalidatesTags: (_result, _error, arg) => [
                 {type: "POST", id: arg._id},
                 {type: "POST", id: "LIST"},
             ],
@@ -63,7 +63,7 @@ const postAPI = api.injectEndpoints({
                 url: `post/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: (result, error, id) => [
+            invalidatesTags: (_result, _error, id) => [
                 {type: "POST", id},
                 {type: "POST", id: "LIST"},
             ],

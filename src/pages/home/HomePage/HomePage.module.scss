@@ -1,0 +1,21 @@
+.authLinks {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: flex-end;
+}
+
+.authLink {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+  background-color: #2b74e4;
+  padding: 10px 20px;
+  border-radius: 8px;
+
+  &:hover {
+    text-decoration: underline;
+
+  }
+}
