@@ -8,7 +8,6 @@ import type {
 
 const userAPI = api.injectEndpoints({
     endpoints: (builder) => ({
-        // ===== PROFILE =====
         getProfile: builder.query<GetProfileResponse, GetProfileRequest>({
             query: () => ({
                 url: "profile",

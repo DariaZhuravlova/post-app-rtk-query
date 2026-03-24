@@ -5,7 +5,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-    isLoggedIn: !!localStorage.getItem("token"),
+    isLoggedIn: false,
 };
 
 export const authSlice = createSlice({
@@ -16,12 +16,14 @@ export const authSlice = createSlice({
             state.isLoggedIn = action.payload;
         },
 
+        login: (state) => {
+            state.isLoggedIn = true;
+        },
+
         logout: (state) => {
             state.isLoggedIn = false;
-            localStorage.removeItem("token");
         },
     },
 });
 
-export const {setIsLoggedIn, logout} = authSlice.actions;
-export const authReducer = authSlice.reducer;
+export const {reducer: authReducer, actions: authActions} = authSlice;

@@ -1,24 +1,27 @@
 // react
 import type {FC} from "react";
+import type {RootState} from "@/app/config/store/createReduxStore";
 import {NavLink} from "react-router";
+import {useDispatch, useSelector} from "react-redux";
 // components
 import {PostAdd} from "@/entities/post/ui/PostAdd";
 import { PostItemList } from "@/entities/post/ui/PostItemList";
 // const
 import { getLoginRoute, getProfileRoute, getRegisterRoute } from "@/shared/libs/constants/routes/routes";
+import { api } from "@/shared/api/api";
+import { tokenService } from "@/shared/libs/storage/token";
+import {authActions} from "@/features/auth/model/slice/authSlice";
 // styles
 import styles from "./HomePage.module.scss";
-import {useDispatch, useSelector} from "react-redux";
-import type {RootState} from "@/app/config/store/createReduxStore";
-import {logout} from "@/features/auth/model/slice/authSlice";
-import {api} from "@/shared/api/api";
+
 
 export const HomePage: FC = () => {
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
     const handleLogout = () => {
-        dispatch(logout());
+        tokenService.remove();
+        dispatch(authActions.logout());
         dispatch(api.util.resetApiState());
     };
 

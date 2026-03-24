@@ -1,7 +1,6 @@
 // types
 import type { IUser } from "@/entities/user/model/types/user";
 
-// ===== REGISTER =====
 export interface RegisterUserRequest {
     phone: string;
     password: string;
@@ -12,7 +11,6 @@ export interface RegisterUserResponse {
     message: string;
 }
 
-// ===== LOGIN =====
 export interface LoginUserRequest {
     phone: string;
     password: string;

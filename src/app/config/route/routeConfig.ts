@@ -5,6 +5,5 @@ export const routeConfig = {
     login: "/login",
     register: "/register",
     profile: "/profile",
-    logout: "/logout",
 };
 

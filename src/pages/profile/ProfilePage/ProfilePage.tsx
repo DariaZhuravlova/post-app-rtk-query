@@ -4,7 +4,7 @@ import {getHomeRoute, getLoginRoute} from "@/shared/libs/constants/routes/routes
 import {useGetProfileQuery} from "@/entities/user/api/userApi";
 import type {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 import {useDispatch} from "react-redux";
-import {logout} from "@/features/auth/model/slice/authSlice";
+import {authActions} from "@/features/auth/model/slice/authSlice";
 import {api} from "@/shared/api/api";
 
 const isFetchBaseQueryError = (error: unknown): error is FetchBaseQueryError => {
@@ -26,7 +26,7 @@ export const ProfilePage: FC = () => {
             : null;
 
     const handleLogout = () => {
-        dispatch(logout());
+        dispatch(authActions.logout());
         dispatch(api.util.resetApiState());
         navigate(getLoginRoute(), {replace: true});
     };

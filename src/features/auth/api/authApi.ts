@@ -9,7 +9,9 @@ import type {
     LoginUserResponse,
 } from "@/features/auth/model/types/authAPItypes";
 // slice
-import {setIsLoggedIn} from "@/features/auth/model/slice/authSlice";
+import { authActions } from "@/features/auth/model/slice/authSlice";
+// storage
+import { tokenService } from "@/shared/libs/storage/token";
 
 const authApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -49,11 +51,11 @@ const authApi = api.injectEndpoints({
                         throw new Error("Missing auth token");
                     }
 
-                    localStorage.setItem("token", data.token);
-                    dispatch(setIsLoggedIn(true));
+                    tokenService.set(data.token);
+                    dispatch(authActions.setIsLoggedIn(true));
                 } catch {
-                    localStorage.removeItem("token");
-                    dispatch(setIsLoggedIn(false));
+                    tokenService.remove();
+                    dispatch(authActions.setIsLoggedIn(false));
                 }
             },
             invalidatesTags: [{type: "USER", id: "ME"}],

@@ -1,8 +1,6 @@
 // types
 import type {IUser} from "./user";
 
-
-// ===== PROFILE =====
 export type GetProfileRequest = void;
 
 export interface GetProfileResponse {
