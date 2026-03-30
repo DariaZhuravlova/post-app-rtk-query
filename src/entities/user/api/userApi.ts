@@ -1,10 +1,9 @@
 // api
 import {api} from "@/shared/api/api";
 // types
-import type {
-    GetProfileRequest,
-    GetProfileResponse,
-} from "@/entities/user/model/types/userAPItypes";
+import type {GetProfileRequest, GetProfileResponse} from "@/entities/user/model/types/userAPItypes";
+
+import {userQueryKeys} from "@/entities/user/model/queryKeys";
 
 const userAPI = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -13,7 +12,7 @@ const userAPI = api.injectEndpoints({
                 url: "profile",
                 method: "GET",
             }),
-            providesTags: [{type: "USER", id: "ME"}],
+            providesTags: () => userQueryKeys.item("ME"),
         }),
     }),
 });

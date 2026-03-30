@@ -13,6 +13,8 @@ import type {
     GetPostByIdRequest,
     GetPostByIdResponse,
 } from "@/entities/post/model/types/postAPItypes";
+// queryKeys
+import {postQueryKeys} from "@/entities/post/model/queryKeys";
 
 const postAPI = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -22,7 +24,7 @@ const postAPI = api.injectEndpoints({
                 url: "posts",
                 method: "GET",
             }),
-            providesTags: [{type: "POST", id: "LIST"}],
+            providesTags: () => postQueryKeys.lists(),
         }),
 
         // GET ONE
@@ -31,7 +33,7 @@ const postAPI = api.injectEndpoints({
                 url: `post/${id}`,
                 method: "GET",
             }),
-            providesTags: (_result, _error, id) => [{type: "POST", id}],
+            providesTags: (_result, _error, id) => postQueryKeys.item(id),
         }),
 
         // CREATE
@@ -41,7 +43,7 @@ const postAPI = api.injectEndpoints({
                 method: "POST",
                 body: newPost,
             }),
-            invalidatesTags: [{type: "POST", id: "LIST"}],
+            invalidatesTags: () => postQueryKeys.lists(),
         }),
 
         // UPDATE
@@ -52,8 +54,8 @@ const postAPI = api.injectEndpoints({
                 body: updatedPost,
             }),
             invalidatesTags: (_result, _error, arg) => [
-                {type: "POST", id: arg._id},
-                {type: "POST", id: "LIST"},
+                ...postQueryKeys.item(arg._id),
+                ...postQueryKeys.lists(),
             ],
         }),
 
@@ -64,8 +66,8 @@ const postAPI = api.injectEndpoints({
                 method: "DELETE",
             }),
             invalidatesTags: (_result, _error, id) => [
-                {type: "POST", id},
-                {type: "POST", id: "LIST"},
+                ...postQueryKeys.item(id),
+                ...postQueryKeys.lists(),
             ],
         }),
     }),
