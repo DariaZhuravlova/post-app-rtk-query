@@ -4,7 +4,9 @@ import type {BaseQueryFn, FetchArgs, FetchBaseQueryError} from "@reduxjs/toolkit
 
 import {bearerBaseQuery, rawTokenBaseQuery} from "@/shared/libs/utils/baseQueries";
 import { tokenService } from "@/shared/libs/storage/token";
-import {isRetryStatus} from "@/shared/libs/constants/auth/backend-status";
+import { isRetryStatus } from "@/shared/libs/constants/auth/backend-status";
+// types
+import {TAG_TYPES} from "@/shared/libs/constants/tag/tagTypes";
 
 const baseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
     args,
@@ -30,6 +32,6 @@ const baseQuery: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> =
 export const api = createApi({
     reducerPath: "api",
     baseQuery,
-    tagTypes: ["POST", "USER"],
+    tagTypes: Object.values(TAG_TYPES),
     endpoints: (_builder) => ({}),
 });

@@ -1,5 +1,5 @@
 // api
-import { api } from "@/shared/api/api";
+import {api} from "@/shared/api/api";
 import type {FetchBaseQueryMeta} from "@reduxjs/toolkit/query";
 // types
 import type {
@@ -9,9 +9,11 @@ import type {
     LoginUserResponse,
 } from "@/features/auth/model/types/authAPItypes";
 // slice
-import { authActions } from "@/features/auth/model/slice/authSlice";
+import {authActions} from "@/features/auth/model/slice/authSlice";
 // storage
-import { tokenService } from "@/shared/libs/storage/token";
+import {tokenService} from "@/shared/libs/storage/token";
+// queryKeys
+import {userQueryKeys} from "@/entities/user/model/queryKeys";
 
 const authApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -32,7 +34,8 @@ const authApi = api.injectEndpoints({
                 body,
             }),
             transformResponse: (response: LoginUserResponse, meta?: FetchBaseQueryMeta) => {
-                const token = response.token ?? meta?.response?.headers.get("authorization") ?? undefined;
+                const token =
+                    response.token ?? meta?.response?.headers.get("authorization") ?? undefined;
 
                 if (!response.ok || !token) {
                     throw new Error(response.message ?? "Login failed");
@@ -58,7 +61,7 @@ const authApi = api.injectEndpoints({
                     dispatch(authActions.setIsLoggedIn(false));
                 }
             },
-            invalidatesTags: [{type: "USER", id: "ME"}],
+            invalidatesTags: userQueryKeys.item("ME"),
         }),
     }),
 });
